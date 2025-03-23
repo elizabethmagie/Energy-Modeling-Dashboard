@@ -1,9 +1,9 @@
+import { FC } from 'react'
 import './App.css'
+import { ProjectTable } from './ProjectTable'
 
-export function App() {
+export const App: FC = () => {
   return (
-    <>
-      Hello world
-    </>
+    <ProjectTable />
   )
 }

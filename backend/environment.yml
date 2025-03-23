@@ -6,3 +6,6 @@ dependencies:
   - pip=25.0
   - python=3.12*
   - sqlalchemy=2.0.*
+  - flask
+  - flask-sqlalchemy
+  - flask-cors
