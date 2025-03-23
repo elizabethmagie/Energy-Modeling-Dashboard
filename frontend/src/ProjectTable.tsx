@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import './ProjectTable.css';
 
 interface Measure {
   id: number;
@@ -12,6 +13,19 @@ interface Project {
   status: string;
   measures: Measure[];
 }
+
+interface ProjectRowProps {
+  project: Project;
+}
+
+const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
+  return (
+    <div className="table-row">
+      <div className="table-cell title-cell">{project.title}</div>
+      <div className="table-cell status-cell">{project.status}</div>
+    </div>
+  );
+};
 
 export const ProjectTable: FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -35,29 +49,22 @@ export const ProjectTable: FC = () => {
   }, []);
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="error-message">Error: {error}</div>;
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Title</th>
-          <th>Status</th>
-          <th>Number of Measures</th>
-        </tr>
-      </thead>
-      <tbody>
-        {projects.map((project) => (
-          <tr key={project.id}>
-            <td>{project.id}</td>
-            <td>{project.title}</td>
-            <td>{project.status}</td>
-            <td>{project.measures.length}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="table-container">
+      <div className="table">
+        <div className="table-header">
+          <div className="table-cell title-cell">Title</div>
+          <div className="table-cell status-cell">Status</div>
+        </div>
+        <div className="table-body">
+          {projects.map((project) => (
+            <ProjectRow key={project.id} project={project} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
