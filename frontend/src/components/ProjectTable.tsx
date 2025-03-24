@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState } from 'react';
 import './ProjectTable.css';
 
 interface Measure {
@@ -85,19 +85,14 @@ const MeasuresTable: FC<MeasuresTableProps> = ({ measures }) => {
 interface ProjectTableProps {
   projects: Project[];
   error: string | null;
-  statusFilter: string;
 }
 
-export const ProjectTable: FC<ProjectTableProps> = ({ projects, error, statusFilter }) => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  useEffect(() => {
-    setSelectedProject(null);
-  }, [statusFilter]);
+export const ProjectTable: FC<ProjectTableProps> = ({ projects, error }) => {
+  const [selectedProject, setSelectedProject] = useState<Project | undefined>(undefined);
 
   const handleProjectSelect = (project: Project) => {
     if (selectedProject?.id === project.id) {
-      setSelectedProject(null);
+      setSelectedProject(undefined);
     } else {
       setSelectedProject(project);
     }
