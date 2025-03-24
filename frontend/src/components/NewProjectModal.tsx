@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import Select from 'react-select';
 
 interface NewProjectModalProps {
   show: boolean;
@@ -16,6 +17,16 @@ interface NewProject {
   status: 'In Progress' | 'Complete';
   measures: NewMeasure[];
 }
+
+type StatusOption = {
+  value: 'In Progress' | 'Complete';
+  label: string;
+}
+
+const statusOptions: StatusOption[] = [
+  { value: 'In Progress', label: 'In Progress' },
+  { value: 'Complete', label: 'Complete' }
+];
 
 export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide }) => {
   const [project, setProject] = useState<NewProject>({
@@ -77,17 +88,16 @@ export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide }) => {
 
           <Form.Group className="mb-3">
             <Form.Label>Status</Form.Label>
-            <Form.Select
-              required
-              value={project.status}
-              onChange={e => setProject(prev => ({ 
+            <Select
+              value={statusOptions.find(option => option.value === project.status)}
+              onChange={(option) => setProject(prev => ({ 
                 ...prev, 
-                status: e.target.value as 'In Progress' | 'Complete'
+                status: option?.value || 'In Progress'
               }))}
-            >
-              <option value="In Progress">In Progress</option>
-              <option value="Complete">Complete</option>
-            </Form.Select>
+              options={statusOptions}
+              isSearchable={false}
+              isClearable={false}
+            />
           </Form.Group>
 
           <h6>Add Measures (Optional)</h6>
