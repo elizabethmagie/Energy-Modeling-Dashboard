@@ -3,20 +3,9 @@ import './App.css'
 import { ProjectTable } from './components/ProjectTable'
 import { Header } from './components/Header'
 import { Toolbar } from './components/Toolbar'
-
-interface Project {
-  id: number
-  title: string
-  status: 'In Progress' | 'Complete'
-  measures: {
-    id: number
-    measure_type: string
-    install_date: string
-  }[]
-}
+import { Project } from './types'
 
 export const App = () => {
-  // TODO initialize to undefined and use loading spinner
   const [projects, setProjects] = useState<Project[]>([])
   const [error, setError] = useState<string | null>(null)
   const [refreshTrigger, setRefreshTrigger] = useState(0);

@@ -1,18 +1,6 @@
 import { FC, useState } from 'react';
 import './ProjectTable.css';
-
-interface Measure {
-  id: number;
-  measure_type: string;
-  install_date: string;
-}
-
-interface Project {
-  id: number;
-  title: string;
-  status: string;
-  measures: Measure[];
-}
+import { Project, Measure } from '../types';
 
 interface ProjectRowProps {
   project: Project;

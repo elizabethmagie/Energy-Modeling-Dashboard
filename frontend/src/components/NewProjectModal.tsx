@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import Select from 'react-select';
+import { Project, Measure, StatusOption, AllStatusOption } from '../types';
 
 interface NewProjectModalProps {
   show: boolean;
@@ -8,23 +9,11 @@ interface NewProjectModalProps {
   onSuccess: () => void;
 }
 
-interface NewMeasure {
-  measure_type: string;
-  install_date: string;
-}
+type NewMeasure = Omit<Measure, 'id' | 'project_id'>;
 
-interface NewProject {
-  title: string;
-  status: 'In Progress' | 'Complete';
-  measures: NewMeasure[];
-}
+type NewProject = Omit<Project, 'id' | 'measures'> & { measures: NewMeasure[] };
 
-type StatusOption = {
-  value: 'In Progress' | 'Complete';
-  label: string;
-}
-
-const statusOptions: StatusOption[] = [
+const statusOptions: Exclude<StatusOption, AllStatusOption>[] = [
   { value: 'In Progress', label: 'In Progress' },
   { value: 'Complete', label: 'Complete' }
 ];
@@ -35,6 +24,7 @@ export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide, onSucc
     status: 'In Progress',
     measures: []
   });
+
   const [measure, setMeasure] = useState<NewMeasure>({
     measure_type: '',
     install_date: ''
@@ -91,9 +81,9 @@ export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide, onSucc
             <Form.Label>Status</Form.Label>
             <Select
               value={statusOptions.find(option => option.value === project.status)}
-              onChange={(option) => setProject(prev => ({ 
+              onChange={(option) => option && setProject(prev => ({ 
                 ...prev, 
-                status: option?.value || 'In Progress'
+                status: option.value
               }))}
               options={statusOptions}
               isSearchable={false}

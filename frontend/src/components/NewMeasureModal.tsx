@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
+import { Project, Measure, ProjectOption } from '../types';
 
 interface NewMeasureModalProps {
   show: boolean;
@@ -8,20 +9,10 @@ interface NewMeasureModalProps {
   onSuccess: () => void;
 }
 
-interface Project {
-  id: number;
-  title: string;
-}
-
-interface ProjectOption {
-  value: number;
-  label: string;
-}
-
 export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide, onSuccess }) => {
   const [selectedProject, setSelectedProject] = useState<ProjectOption | null>(null);
-  const [measureType, setMeasureType] = useState('');
-  const [installDate, setInstallDate] = useState('');
+  const [measureType, setMeasureType] = useState<Measure['measure_type']>('');
+  const [installDate, setInstallDate] = useState<Measure['install_date']>('');
 
   const loadProjectOptions = async (inputValue: string) => {
     try {

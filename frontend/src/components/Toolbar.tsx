@@ -4,6 +4,7 @@ import { NewProjectModal } from './NewProjectModal';
 import { NewMeasureModal } from './NewMeasureModal';
 import { Dropdown, Form, Button, InputGroup } from 'react-bootstrap';
 import Select from 'react-select';
+import { StatusOption } from '../types';
 
 interface ToolbarProps {
   onProjectOrMeasureAdded: () => void;
@@ -14,6 +15,12 @@ interface ToolbarProps {
 interface NewItemButtonProps {
   onProjectOrMeasureAdded: () => void;
 }
+
+const statusOptions: StatusOption[] = [
+  { value: 'all', label: 'All Projects' },
+  { value: 'In Progress', label: 'In Progress' },
+  { value: 'Complete', label: 'Complete' }
+];
 
 export const Toolbar: FC<ToolbarProps> = ({ 
   onProjectOrMeasureAdded, 
@@ -48,12 +55,8 @@ const FiltersContainer: FC<FiltersContainerProps> = ({ onStatusFilter, onSearchF
     <div className="custom-filters-container">
       <Select
         className='custom-toolbar-filter'
-        options={[
-          { value: 'all', label: 'All Projects' },
-          { value: 'In Progress', label: 'In Progress' },
-          { value: 'Complete', label: 'Complete' }
-        ]}
-        defaultValue={{ value: 'all', label: 'All Projects' }}
+        options={statusOptions}
+        defaultValue={statusOptions[0]}
         onChange={(option) => option && onStatusFilter(option.value as 'In Progress' | 'Complete' | 'all')}
         isSearchable={false}
         isClearable={false}
