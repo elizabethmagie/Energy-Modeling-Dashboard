@@ -1,3 +1,17 @@
+.page-container {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+}
+
+.main-table {
+  flex: 2;
+}
+
+.measures-panel {
+  flex: 1;
+}
+
 .table-container {
   display: flex;
   flex-direction: column;
@@ -22,6 +36,8 @@
   border-bottom: 1px solid #e5e7eb;
   font-weight: 600;
   color: #374151;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .table-body {
@@ -39,8 +55,18 @@
   background-color: white;
 }
 
+.table-body .table-row:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom: none;  /* Remove the bottom border on the last row */
+}
+
 .table-row:hover {
   background-color: #f9fafb;
+}
+
+.table-row.selected {
+  background-color: #f3f4f6;
 }
 
 .table-cell {
@@ -62,4 +88,10 @@
   color: #ef4444;
   padding: 16px;
   text-align: center;
+}
+
+.empty-state {
+  padding: 24px;
+  text-align: center;
+  color: #6b7280;
 }
