@@ -2,26 +2,51 @@ import { FC, useState } from 'react';
 import './Toolbar.css';
 import { NewProjectModal } from './NewProjectModal';
 import { NewMeasureModal } from './NewMeasureModal';
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown, Form } from 'react-bootstrap';
 
 interface ToolbarProps {
   onProjectOrMeasureAdded: () => void;
+  onStatusFilter: (status: string) => void;
+  className?: string;
 }
 
-export const Toolbar: FC<ToolbarProps> = ({ onProjectOrMeasureAdded }) => {
+interface NewItemButtonProps {
+  onProjectOrMeasureAdded: () => void;
+}
+
+export const Toolbar: FC<ToolbarProps> = ({ onProjectOrMeasureAdded, onStatusFilter }) => {
   return (
-    <div className='custom-toolbar-container'>
-      <FiltersContainer />
+    <div className='custom-toolbar-container my-3'>
+      <FiltersContainer onStatusFilter={onStatusFilter} />
       <div><NewItemButton onProjectOrMeasureAdded={onProjectOrMeasureAdded} /></div>
     </div>
   )
 }
 
-const FiltersContainer: FC = () => {
-  return <div>This is where my filters will go</div>
+interface FiltersContainerProps {
+  onStatusFilter: (status: string) => void;
 }
 
-const NewItemButton: FC<ToolbarProps> = ({ onProjectOrMeasureAdded }) => {
+const FiltersContainer: FC<FiltersContainerProps> = ({ onStatusFilter }) => {
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onStatusFilter(e.target.value);
+  };
+
+  return (
+    <Form.Group className="toolbar-filter">
+      <Form.Select 
+        onChange={handleStatusChange}
+        defaultValue="all"
+      >
+        <option value="all">All Projects</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Complete">Complete</option>
+      </Form.Select>
+    </Form.Group>
+  );
+};
+
+const NewItemButton: FC<NewItemButtonProps> = ({ onProjectOrMeasureAdded }) => {
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [showMeasureModal, setShowMeasureModal] = useState(false);
 
