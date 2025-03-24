@@ -1,9 +1,14 @@
-from flask import jsonify
+from flask import Blueprint, jsonify, request
 from .models import Project, Measure
 from . import db
+from datetime import datetime
+
+# Create a Blueprint instance
+bp = Blueprint('api', __name__)
 
 # Function to fetch all projects and their associated measures
 # TODO: maybe separate getting projects and their associated measures into different routes
+@bp.route('/projects', methods=['GET'])
 def get_projects():
     # Query all projects
     projects = Project.query.all()
@@ -23,3 +28,51 @@ def get_projects():
         projects_data.append(project_data)
     
     return jsonify(projects_data)
+
+@bp.route('/projects', methods=['POST'])
+def create_project():
+    data = request.json
+    
+    try:
+        # Create new project
+        project = Project(
+            title=data['title'],
+            status=data['status']
+        )
+        db.session.add(project)
+        db.session.flush()  # Get the project ID
+
+        # Add measures if any
+        if 'measures' in data:
+            for measure_data in data['measures']:
+                measure = Measure(
+                    project_id=project.id,
+                    measure_type=measure_data['measure_type'],
+                    install_date=datetime.strptime(measure_data['install_date'], '%Y-%m-%d').date()
+                )
+                db.session.add(measure)
+
+        db.session.commit()
+        return jsonify({'message': 'Project created successfully'}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 400
+
+@bp.route('/measures', methods=['POST'])
+def create_measure():
+    data = request.json
+    
+    try:
+        measure = Measure(
+            project_id=data['project_id'],
+            measure_type=data['measure_type'],
+            install_date=datetime.strptime(data['install_date'], '%Y-%m-%d').date()
+        )
+        db.session.add(measure)
+        db.session.commit()
+        return jsonify({'message': 'Measure created successfully'}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 400

@@ -17,9 +17,9 @@ def create_app():
     with app.app_context():
         Base.metadata.create_all(db.engine)
 
-    # Import and register the routes
-    from .routes import get_projects
-    app.add_url_rule('/api/projects', view_func=get_projects, methods=['GET'])
+    # Import and register the blueprint
+    from .routes import bp
+    app.register_blueprint(bp, url_prefix='/api')
 
     return app
 
