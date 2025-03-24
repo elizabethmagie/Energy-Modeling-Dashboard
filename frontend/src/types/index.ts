@@ -23,11 +23,3 @@ export interface ProjectOption {
   value: number;
   label: string;
 }
-
-// For API responses
-export interface ApiResponse<T> {
-  data?: T;
-  message?: string;
-  error?: string;
-}
- 

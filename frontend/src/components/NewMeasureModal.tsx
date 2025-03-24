@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 import { Project, Measure, ProjectOption } from '../types';
@@ -11,10 +11,10 @@ interface NewMeasureModalProps {
 
 export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide, onSuccess }) => {
   const [selectedProject, setSelectedProject] = useState<ProjectOption | null>(null);
-  const [measureType, setMeasureType] = useState<Measure['measure_type']>('');
-  const [installDate, setInstallDate] = useState<Measure['install_date']>('');
+  const [measure_type, setMeasureType] = useState<Measure['measure_type']>('');
+  const [install_date, setInstallDate] = useState<Measure['install_date']>('');
 
-  const loadProjectOptions = async (inputValue: string) => {
+  const loadProjectOptions = useCallback(async (inputValue: string): Promise<ProjectOption[]> => {
     try {
       // Only search if there's an input value, otherwise get all projects
       const url = inputValue 
@@ -33,9 +33,9 @@ export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide, onSucc
       console.error('Error fetching projects:', error);
       return [];
     }
-  };
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedProject) return;
 
@@ -47,8 +47,8 @@ export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide, onSucc
         },
         body: JSON.stringify({
           project_id: selectedProject.value,
-          measure_type: measureType,
-          install_date: installDate
+          measure_type: measure_type,
+          install_date: install_date
         })
       });
 
@@ -59,7 +59,7 @@ export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide, onSucc
     } catch (error) {
       console.error('Error creating measure:', error);
     }
-  };
+  }, [selectedProject, measure_type, install_date, onHide, onSuccess]);
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -89,7 +89,7 @@ export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide, onSucc
             <Form.Control
               type="text"
               required
-              value={measureType}
+              value={measure_type}
               onChange={e => setMeasureType(e.target.value)}
             />
           </Form.Group>
@@ -99,7 +99,7 @@ export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide, onSucc
             <Form.Control
               type="date"
               required
-              value={installDate}
+              value={install_date}
               onChange={e => setInstallDate(e.target.value)}
             />
           </Form.Group>

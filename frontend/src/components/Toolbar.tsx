@@ -57,7 +57,7 @@ const FiltersContainer: FC<FiltersContainerProps> = ({ onStatusFilter, onSearchF
         className='custom-toolbar-filter'
         options={statusOptions}
         defaultValue={statusOptions[0]}
-        onChange={(option) => option && onStatusFilter(option.value as 'In Progress' | 'Complete' | 'all')}
+        onChange={(option) => option && onStatusFilter(option.value)}
         isSearchable={false}
         isClearable={false}
       />

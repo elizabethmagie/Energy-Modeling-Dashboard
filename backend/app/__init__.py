@@ -14,11 +14,6 @@ def create_app():
 
     db.init_app(app)
 
-    # Create tables in the database (if they don't exist already)
-    with app.app_context():
-        Base.metadata.create_all(db.engine)
-
-    # Import routes after app is created to avoid circular imports
     from . import routes
 
     return app

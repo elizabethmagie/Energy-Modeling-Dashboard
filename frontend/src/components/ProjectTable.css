@@ -58,7 +58,7 @@
 .custom-table-body .custom-table-row:last-child {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  border-bottom: none;  /* Remove the bottom border on the last row */
+  border-bottom: none;
 }
 
 .custom-table-row:hover {

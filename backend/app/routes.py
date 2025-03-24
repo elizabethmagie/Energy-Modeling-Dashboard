@@ -3,19 +3,13 @@ from .models import Project, Measure
 from . import db, app
 from datetime import datetime
 
-# Function to fetch all projects and their associated measures
-# TODO: maybe separate getting projects and their associated measures into different routes
 @app.route('/api/projects', methods=['GET'])
 def get_projects():
-    # Query all projects
     projects = Project.query.all()
     
-    # Prepare the list of projects with measures
     projects_data = []
     for project in projects:
-        # For each project, get the associated measures
         measures = Measure.query.filter_by(project_id=project.id).all()
-        # Prepare the project data with its measures
         project_data = {
             'id': project.id,
             'title': project.title,
@@ -37,7 +31,7 @@ def create_project():
             status=data['status']
         )
         db.session.add(project)
-        db.session.flush()  # Get the project ID
+        db.session.flush()  # To obtain the project ID
 
         # Add measures if any
         if 'measures' in data:

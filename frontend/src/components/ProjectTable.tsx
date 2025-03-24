@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import './ProjectTable.css';
 import { Project, Measure } from '../types';
 
@@ -26,15 +26,7 @@ interface MeasuresTableProps {
 }
 
 const MeasuresTable: FC<MeasuresTableProps> = ({ measures }) => {
-  if (measures.length === 0) {
-    return (
-      <div className="custom-table-container">
-        <div className="custom-empty-state">No associated measures</div>
-      </div>
-    );
-  }
-  
-  const formatDate = (dateString: string) => {
+  const formatDate = useCallback((dateString: string) => {
     const date = new Date(dateString);
 
     // Adjust for timezone offset
@@ -47,8 +39,15 @@ const MeasuresTable: FC<MeasuresTableProps> = ({ measures }) => {
       day: 'numeric',
     });
     return formatter.format(adjustedDate);
-  };
+  }, []);
 
+  if (measures.length === 0) {
+    return (
+      <div className="custom-table-container">
+        <div className="custom-empty-state">No associated measures</div>
+      </div>
+    );
+  }
 
   return (
     <div className="custom-table-container">

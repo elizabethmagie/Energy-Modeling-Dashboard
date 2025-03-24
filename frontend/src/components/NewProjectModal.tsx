@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import Select from 'react-select';
 import { Project, Measure, StatusOption, AllStatusOption } from '../types';
@@ -30,7 +30,7 @@ export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide, onSucc
     install_date: ''
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await fetch('http://127.0.0.1:5000/api/projects', {
@@ -48,9 +48,9 @@ export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide, onSucc
     } catch (error) {
       console.error('Error creating project:', error);
     }
-  };
+  }, [project, onHide, onSuccess]);
 
-  const addMeasure = () => {
+  const addMeasure = useCallback(() => {
     if (measure.measure_type && measure.install_date) {
       setProject(prev => ({
         ...prev,
@@ -58,7 +58,7 @@ export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide, onSucc
       }));
       setMeasure({ measure_type: '', install_date: '' });
     }
-  };
+  }, [measure]);
 
   return (
     <Modal show={show} onHide={onHide}>
