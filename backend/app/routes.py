@@ -73,3 +73,16 @@ def create_measure():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 400
+
+@app.route('/api/projects/search', methods=['GET'])
+def search_projects():
+    search_term = request.args.get('q', '')
+    
+    projects = Project.query.filter(
+        Project.title.ilike(f'%{search_term}%')
+    ).all()
+    
+    return jsonify([{
+        'id': project.id,
+        'title': project.title
+    } for project in projects])

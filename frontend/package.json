@@ -10,11 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/lodash": "^4.17.16",
     "@types/react-bootstrap": "^0.32.37",
+    "@types/react-select": "^5.0.0",
     "bootstrap": "^5.3.3",
+    "lodash": "^4.17.21",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-select": "^5.10.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
