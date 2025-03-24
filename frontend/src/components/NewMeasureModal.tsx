@@ -5,6 +5,7 @@ import AsyncSelect from 'react-select/async';
 interface NewMeasureModalProps {
   show: boolean;
   onHide: () => void;
+  onSuccess: () => void;
 }
 
 interface Project {
@@ -17,7 +18,7 @@ interface ProjectOption {
   label: string;
 }
 
-export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide }) => {
+export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide, onSuccess }) => {
   const [selectedProject, setSelectedProject] = useState<ProjectOption | null>(null);
   const [measureType, setMeasureType] = useState('');
   const [installDate, setInstallDate] = useState('');
@@ -63,6 +64,7 @@ export const NewMeasureModal: FC<NewMeasureModalProps> = ({ show, onHide }) => {
       if (!response.ok) throw new Error('Failed to create measure');
       
       onHide();
+      onSuccess();
     } catch (error) {
       console.error('Error creating measure:', error);
     }

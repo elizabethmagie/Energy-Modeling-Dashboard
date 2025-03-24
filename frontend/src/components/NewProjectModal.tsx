@@ -5,6 +5,7 @@ import Select from 'react-select';
 interface NewProjectModalProps {
   show: boolean;
   onHide: () => void;
+  onSuccess: () => void;
 }
 
 interface NewMeasure {
@@ -28,7 +29,7 @@ const statusOptions: StatusOption[] = [
   { value: 'Complete', label: 'Complete' }
 ];
 
-export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide }) => {
+export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide, onSuccess }) => {
   const [project, setProject] = useState<NewProject>({
     title: '',
     status: 'In Progress',
@@ -53,7 +54,7 @@ export const NewProjectModal: FC<NewProjectModalProps> = ({ show, onHide }) => {
       if (!response.ok) throw new Error('Failed to create project');
       
       onHide();
-      // You might want to refresh the projects list here
+      onSuccess();
     } catch (error) {
       console.error('Error creating project:', error);
     }

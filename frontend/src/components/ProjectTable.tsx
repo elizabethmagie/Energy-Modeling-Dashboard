@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import './ProjectTable.css';
 
 interface Measure {
@@ -82,27 +82,13 @@ const MeasuresTable: FC<MeasuresTableProps> = ({ measures }) => {
   );
 };
 
-export const ProjectTable: FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [error, setError] = useState<string>('');
+interface ProjectTableProps {
+  projects: Project[];
+  error: string | null;
+}
+
+export const ProjectTable: FC<ProjectTableProps> = ({ projects, error }) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:5000/api/projects');
-        if (!response.ok) {
-          throw new Error('Failed to fetch projects');
-        }
-        const data = await response.json();
-        setProjects(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      }
-    };
-
-    fetchProjects();
-  }, []);
 
   const handleProjectSelect = (project: Project) => {
     if (selectedProject?.id === project.id) {
@@ -113,7 +99,7 @@ export const ProjectTable: FC = () => {
   };
 
   if (error) {
-    return <div className="custom-error-message">Error: {error}</div>;
+    return <div className="text-danger">{error}</div>;
   }
 
   return (
