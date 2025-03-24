@@ -1,14 +1,11 @@
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 from .models import Project, Measure
-from . import db
+from . import db, app
 from datetime import datetime
-
-# Create a Blueprint instance
-bp = Blueprint('api', __name__)
 
 # Function to fetch all projects and their associated measures
 # TODO: maybe separate getting projects and their associated measures into different routes
-@bp.route('/projects', methods=['GET'])
+@app.route('/api/projects', methods=['GET'])
 def get_projects():
     # Query all projects
     projects = Project.query.all()
@@ -29,7 +26,7 @@ def get_projects():
     
     return jsonify(projects_data)
 
-@bp.route('/projects', methods=['POST'])
+@app.route('/api/projects', methods=['POST'])
 def create_project():
     data = request.json
     
@@ -59,7 +56,7 @@ def create_project():
         db.session.rollback()
         return jsonify({'error': str(e)}), 400
 
-@bp.route('/measures', methods=['POST'])
+@app.route('/api/measures', methods=['POST'])
 def create_measure():
     data = request.json
     

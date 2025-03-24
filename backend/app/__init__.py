@@ -4,12 +4,13 @@ from flask_cors import CORS
 from .models import Base 
 
 db = SQLAlchemy(model_class=Base)
+app = Flask(__name__)
 
 def create_app():
-    app = Flask(__name__)
     CORS(app)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db/application_example.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
 
@@ -17,9 +18,8 @@ def create_app():
     with app.app_context():
         Base.metadata.create_all(db.engine)
 
-    # Import and register the blueprint
-    from .routes import bp
-    app.register_blueprint(bp, url_prefix='/api')
+    # Import routes after app is created to avoid circular imports
+    from . import routes
 
     return app
 
