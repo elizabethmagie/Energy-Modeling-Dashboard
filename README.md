@@ -1,37 +1,23 @@
-# Energy Modeling Software Engineer Interview Exercise
+# Energy Modeling Dashboard
 
-This repository includes an example SQLite database and SQLAlchemy models that represent energy efficiency projects and the corresponding measures installed. You are tasked with building a web interface to interact with the data.
+This project began as a technical take-home assessment and has since evolved into an independent personal project. It is a full-stack web application that enables users to create, view, and modify energy modeling projects and their associated measures.
 
-## Project Overview
-The SQLite database file is located at: `db/application_example.db`
+## Features
 
+- Add, update, and manage energy projects
+- Link and track energy-saving measures for each project
+- Clean, responsive frontend interface built with React and TypeScript
+- RESTful API built with Flask (Python) and connected to a SQLite database
+- Server-side validation for reliable and consistent data handling
 
-The SQLAlchemy models, representing the tables within the database, can be found in: `src/app/models.py`
+## Tech Stack
 
-A conda environment file has been started at `environment.yml` that can be expanded upon to include any required packages. 
+- **Frontend**: React, TypeScript, Bootstrap, CSS
+- **Backend**: Flask (Python), RESTful API, SQLite
+- **Development Tools**: Git, Anaconda, VS Code
 
-## Objectives
-Your goal is to fork this repository and create a simple web application that allows users to:
+## Notes
 
-1. View data from the database in a user-friendly format.
-2. Add records in the database through the interface.
+This project originally stemmed from a take-home assessment. All code and logic are my own, and the repository has been extended and refined as a personal project to further showcase full-stack development skills.
 
-You may choose any Python web framework you're comfortable with, such as Flask, Django, or another of your preference.
-
-## Requirements
-1. Web Interface:
-    - Display the data stored in the SQLite database.
-    - Implement forms or other UI elements to allow users to add new records.
-2. Database Interaction:
-    - Use SQLAlchemy (using the provided models) to interact with the database.
-3. Time Allocation:
-    - Please allocate 4-6 hours for the completion of this task.
-
-## Submission Guidelines
-Once you have completed the task:
-1. Share the forked repository on GitHub.
-2. Be prepared to demonstrate the application and discuss your approach during the next interview.
-
-## Deadline
-Ensure that you submit your forked repository by the deadline provided by VEIC's HR Business Partner.
 
